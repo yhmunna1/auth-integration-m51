@@ -16,6 +16,7 @@ const Register = () => {
     createUser(email, password)
       .than((result) => {
         console.log(result.user);
+        e.target.reset();
       })
       .catch((error) => {
         console.error(error);

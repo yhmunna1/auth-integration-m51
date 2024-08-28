@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -14,6 +16,19 @@ const Login = () => {
     signInUser(email, password)
       .than((result) => {
         console.log(result.user);
+        e.target.reset();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .than((result) => {
+        console.log(result.user);
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);
@@ -66,6 +81,12 @@ const Login = () => {
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
+              </div>
+              <div className="form-control mt-6">
+                <button onClick={handleGoogleSignIn} className="btn btn-ghost">
+                  <FcGoogle />
+                  Google
+                </button>
               </div>
             </form>
           </div>
